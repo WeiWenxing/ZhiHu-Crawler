@@ -1,0 +1,14 @@
+build
+
+.idea
+.gradle
+
+*.class
+*.DS_Store
+*.properties
+app/build.properties
+!gradle-wrapper.properties
+*.iml
+captures
+*.csv
+*/*.csv
