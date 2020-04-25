@@ -32,9 +32,9 @@ def get_html(url):
         return None
 
 
-def get_json(i_url):
+def get_json(url):
     try:
-        response = requests.get(i_url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=10)
         if response.status_code == 200:
             return response.json()
         else:
@@ -42,7 +42,7 @@ def get_json(i_url):
     except Exception as e:
         print(e)
         time.sleep(60 + float(random.randint(1, 4000)) / 100)
-        return get_json(i_url)
+        return get_json(url)
 
 
 def get_question_info(q_url, df):
@@ -55,14 +55,12 @@ def get_question_info(q_url, df):
     answer_count = doc('.QuestionPage meta[itemprop=answerCount]').attr('content')
     follower_count = doc('.QuestionPage meta[itemprop$=followerCount]').attr('content')
     good = ''
-    rate = 0
-    if int(answer_count) != 0:
-        rate = int(watch_count) // int(answer_count)
+    rate = int(watch_count) // int(answer_count)
     if rate > 5000:
-        good = str(rate)
+        good = rate
     # print(str(question_title).encode('gbk', 'ignore').decode('gbk'))
 
-    df.loc[df.shape[0]] = {'title': question_title, 'url': question_url, 'watch': watch_count, 'answer': answer_count, 'rate': rate, 'follower': follower_count}
+    df.loc[df.shape[0]] = {'title': question_title, 'url': question_url, 'watch': watch_count, 'answer': answer_count, 'good': good, 'follower': follower_count}
     return
 
 
@@ -91,11 +89,10 @@ def get_urls(init_url):
 
 
 def collect_info(url_list, outfile):
-    data_frame = pd.DataFrame(columns=['title', 'url', 'watch', 'answer', 'rate', 'follower'])
+    data_frame = pd.DataFrame(columns=['title', 'url', 'watch', 'answer', 'good', 'follower'])
     for q_url in url_list:
         get_question_info(q_url, data_frame)
-    result = data_frame.sort_values('rate', ascending=False)
-    result.to_csv(outfile, index=False, encoding='utf_8_sig')
+    data_frame.to_csv(outfile, index=False, encoding='utf_8_sig')
     return
 
 
