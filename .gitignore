@@ -12,3 +12,4 @@ app/build.properties
 captures
 *.csv
 */*.csv
+*/*.xlsx
