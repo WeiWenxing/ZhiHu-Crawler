@@ -1,0 +1,1 @@
+python getKeyword.py 20023171 com/键盘侠.csv 傻逼 煞笔 傻比 沙比 二逼 蠢逼 狗逼 狗比 你妈 妈比 麻痹 妈逼 脑残
