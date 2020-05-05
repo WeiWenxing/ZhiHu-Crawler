@@ -90,8 +90,8 @@ def get_comment(qid, aid, keyword):
                 print(aurl)
                 print(qurl)
             i=i+1
-            if i > 10:
-                break
+            if i > 2:
+                is_end = True
         next_url = json['paging']['next']
     return cdf
 
